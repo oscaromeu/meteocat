@@ -91,7 +91,7 @@ at [https://apidocs.meteocat.gencat.cat/documentacio/](https://apidocs.meteocat.
     - [ ] Xarxa de Detecció de Descàrregues Elèctriques
     - [ ] Referència
     - [ ] Quotes
-- [ ] Full code testing
+- [ ] Full code coverage
 
 ## Bug Tracker
 
