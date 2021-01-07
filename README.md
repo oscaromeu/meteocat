@@ -20,8 +20,7 @@ Access to forecasts, real-time and historical data from the Meteorological Servi
 
 As Meteocat APIs need a valid API key to allow responses, this library won't work if you don't provide one. This stands
 for both free and paid (pro) subscription plans. You can signup for a free API key on the Meteocat website Please notice that
-both subscriptions plan are subject to requests throttling.
-
+both subscriptions plan are subject to requests throttling. To get an API Key see [form](https://apidocs.meteocat.gencat.cat/documentacio/acces-ciutada-i-administracio/).
 ### Installation
 
 #### Build from source
