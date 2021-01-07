@@ -4,7 +4,7 @@
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/itchyny/meteocat/blob/master/LICENSE)
 [![pkg.go.dev](https://pkg.go.dev/badge/github.com/oscaromeu/meteocat)](https://pkg.go.dev/github.com/oscaromeu/meteocat)
 
-### Rest client implented in Go to send requests and inspect responses of the Meteocat API Rest
+### API Rest client implented in Go to send requests and inspect responses of the Meteocat Rest API
 
 This package allows you to use the API provided by Meteocat to retrieve weather data from its weather stations networks.
 The package is still in development and does include support for all the API operations. See the TODO section for
@@ -19,8 +19,8 @@ Access to forecasts, real-time and historical data from the Meteorological Servi
 ### API key
 
 As Meteocat APIs need a valid API key to allow responses, this library won't work if you don't provide one. This stands
-for both free and paid (pro) subscription plans. You can signup for a free API key on the Meteocat website Please notice that
-both subscriptions plan are subject to requests throttling. Click here in order [to get an API Key](https://apidocs.meteocat.gencat.cat/section/informacio-general/plans-i-registre/).
+for both free and paid (pro) subscription plans. You can signup for a free API key on the Meteocat [website](https://apidocs.meteocat.gencat.cat/section/informacio-general/plans-i-registre/). Please notice that
+both subscriptions plan are subject to requests throttling.
 ### Installation
 
 #### Build from source
