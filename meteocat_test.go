@@ -35,7 +35,7 @@ func TestValidCodiVariable(t *testing.T) {
 // TestCheckAPIKeyExists tests whether or not CheckAPIKeyExists provides
 // the correct assertion on provided data unit.
 func TestCheckAPIKeyExists(t *testing.T) {
-		apiKey := "asdf1234"
+	apiKey := "asdf1234"
 
 	if !CheckAPIKeyExists(apiKey) {
 		t.Error("Key not set")

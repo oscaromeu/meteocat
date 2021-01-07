@@ -89,8 +89,6 @@ type BasesTemporals []struct {
 // variables metadata of all the data registered bu a station
 type MetadadesVariablesEstacio []struct{ MetadadesVariableEstacio }
 
-
-
 // MetadadesVariableEstacio is an agreggate type to hold the metadata of the variable data registered in a particular station
 type MetadadesVariableEstacio struct {
 	MetadadesVariable

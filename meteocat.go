@@ -22,10 +22,11 @@ var (
 	//baseURL="http://localhost:3000%s"
 
 )
+
 // CodisEstat holds all the status that a station can have
 var CodisEstat = map[string]string{
-	"ope": "Operativa", // Operational
-	"des": "Desmantellada", // Dismantled
+	"ope": "Operativa",      // Operational
+	"des": "Desmantellada",  // Dismantled
 	"bte": "Baixa temporal", // Not operational temporary
 }
 
@@ -225,96 +226,96 @@ var CodisEstacions = map[string]string{
 // CodisVariables holds all the measurements performed by the weather stations. Note that not all the stations
 // measures all the variables. To see which measurements a station does check the method MeasurementMetadataAllByStation
 var CodisVariables = map[string]string{
-	"1": "Pressió atmosfèrica màxima",
-	"2": "Pressió atmosfèrica mínima",
-	"3": "Humitat relativa màxima",
+	"1":  "Pressió atmosfèrica màxima",
+	"2":  "Pressió atmosfèrica mínima",
+	"3":  "Humitat relativa màxima",
 	"X4": "Temperatura màxima de subsòl a 5 cm",
-	"5": "Temperatura mínima de subsòl a 5 cm",
-	"6": "TDR màxima a 10 cm",
-	"7": "TDR mínima a 10 cm",
-	"8": "Desviació estàndard de la irradiància neta",
-	"9": "Irradiància reflectida",
-	"10":    "Irradiància fotosintèticament activa (PAR)",
-	"11":    "Temperatura de supefície",
-	"12":    "Temperatura màxima de superfície",
-	"13":    "Temperatura mínima de superfície",
-	"14":    "Temperatura de subsòl a 40 cm",
-	"16":    "Nivell evaporímetre",
-	"20":    "Velocitat del vent a 10 m (vec.)",
-	"21":    "Direcció del vent a 10 m (m. u)",
-	"22":    "Desviació est. de la direcció del vent a 10 m",
-	"23":    "Velocitat del vent a 6 m (vec.)",
-	"24":    "Direcció del vent a 6 m (m. u)",
-	"25":    "Desviació est. de la direcció de vent a 6 m",
-	"26":    "Velocitat del vent a 2 m (vec.)",
-	"27":    "Direcció del vent a 2 m (m. u)",
-	"28":    "Desviació est. de la direcció del vent a 2 m",
-	"30":    "Velocitat del vent a 10 m (esc.)",
-	"31":    "Direcció de vent 10 m (m. 1)",
-	"32":    "Temperatura",
-	"33":    "Humitat relativa",
-	"34":    "Pressió atmosfèrica",
-	"35":    "Precipitació",
-	"36":    "Irradiància solar global",
-	"37":    "Desviació est. de la irradiància solar global",
-	"38":    "Gruix de neu a terra",
-	"39":    "Radiació UV",
-	"40":    "Temperatura màxima",
-	"42":    "Temperatura mínima",
-	"44":    "Humitat relativa mínima",
-	"46":    "Velocitat del vent a 2 m (esc.)",
-	"47":    "Direcció del vent a 2 m (m. 1)",
-	"48":    "Velocitat del vent a 6 m (esc.)",
-	"49":    "Direcció del vent a 6 m (m. 1)",
-	"50":    "Ratxa màxima del vent a 10 m",
-	"51":    "Direcció de la ratxa màxima del vent a 10 m",
-	"53":    "Ratxa màxima del vent a 6 m",
-	"54":    "Direcció de la ratxa màxima del vent a 6 m",
-	"56":    "Ratxa màxima del vent a 2 m",
-	"57":    "Direcció de la ratxa màxima del vent a 2 m",
-	"59":    "Irradiància neta",
-	"60":    "Temperatura de subsòl a 5 cm",
-	"61":    "Temperatura de subsòl a 50 cm",
-	"62":    "TDR a 10 cm",
-	"63":    "TDR a 35 cm",
-	"64":    "Humectació moll",
-	"65":    "Humectació sec",
-	"66":    "Humectació res",
-	"67":    "Humectació moll 2",
-	"68":    "Humectació sec 2",
-	"69":    "Humectació res 2",
-	"70":    "Precipitació acumulada",
-	"71":    "Bateria",
-	"72":    "Precipitació màxima en 1 minut",
-	"74":    "Humitat del combustible forestal 1",
-	"75":    "Temperatura del combustible forestal 1",
-	"76":    "Humitat del combustible forestal 2",
-	"77":    "Temperatura del combustible forestal 2",
-	"78":    "Humitat del combustible forestal 3",
-	"79":    "Temperatura del combustible forestal 3",
-	"80":    "Temperatura de la neu 1",
-	"81":    "Temperatura de la neu 2",
-	"82":    "Temperatura de la neu 3",
-	"83":    "Temperatura de la neu 4",
-	"84":    "Temperatura de la neu 5",
-	"85":    "Temperatura de la neu 6",
-	"86":    "Temperatura de la neu 7",
-	"87":    "Temperatura de la neu 8",
-	"88":    "Quality number",
-	"89":    "Temperatura del datalogger",
-	"90":    "Altura màxima",
-	"91":    "Període màxima",
-	"92":    "Altura significant",
-	"93":    "Període significant",
-	"94":    "Altura mitjana",
-	"95":    "Període mitjà",
-	"96":    "Direcció del pic",
-	"97":    "Temperatura superficial del mar",
+	"5":  "Temperatura mínima de subsòl a 5 cm",
+	"6":  "TDR màxima a 10 cm",
+	"7":  "TDR mínima a 10 cm",
+	"8":  "Desviació estàndard de la irradiància neta",
+	"9":  "Irradiància reflectida",
+	"10": "Irradiància fotosintèticament activa (PAR)",
+	"11": "Temperatura de supefície",
+	"12": "Temperatura màxima de superfície",
+	"13": "Temperatura mínima de superfície",
+	"14": "Temperatura de subsòl a 40 cm",
+	"16": "Nivell evaporímetre",
+	"20": "Velocitat del vent a 10 m (vec.)",
+	"21": "Direcció del vent a 10 m (m. u)",
+	"22": "Desviació est. de la direcció del vent a 10 m",
+	"23": "Velocitat del vent a 6 m (vec.)",
+	"24": "Direcció del vent a 6 m (m. u)",
+	"25": "Desviació est. de la direcció de vent a 6 m",
+	"26": "Velocitat del vent a 2 m (vec.)",
+	"27": "Direcció del vent a 2 m (m. u)",
+	"28": "Desviació est. de la direcció del vent a 2 m",
+	"30": "Velocitat del vent a 10 m (esc.)",
+	"31": "Direcció de vent 10 m (m. 1)",
+	"32": "Temperatura",
+	"33": "Humitat relativa",
+	"34": "Pressió atmosfèrica",
+	"35": "Precipitació",
+	"36": "Irradiància solar global",
+	"37": "Desviació est. de la irradiància solar global",
+	"38": "Gruix de neu a terra",
+	"39": "Radiació UV",
+	"40": "Temperatura màxima",
+	"42": "Temperatura mínima",
+	"44": "Humitat relativa mínima",
+	"46": "Velocitat del vent a 2 m (esc.)",
+	"47": "Direcció del vent a 2 m (m. 1)",
+	"48": "Velocitat del vent a 6 m (esc.)",
+	"49": "Direcció del vent a 6 m (m. 1)",
+	"50": "Ratxa màxima del vent a 10 m",
+	"51": "Direcció de la ratxa màxima del vent a 10 m",
+	"53": "Ratxa màxima del vent a 6 m",
+	"54": "Direcció de la ratxa màxima del vent a 6 m",
+	"56": "Ratxa màxima del vent a 2 m",
+	"57": "Direcció de la ratxa màxima del vent a 2 m",
+	"59": "Irradiància neta",
+	"60": "Temperatura de subsòl a 5 cm",
+	"61": "Temperatura de subsòl a 50 cm",
+	"62": "TDR a 10 cm",
+	"63": "TDR a 35 cm",
+	"64": "Humectació moll",
+	"65": "Humectació sec",
+	"66": "Humectació res",
+	"67": "Humectació moll 2",
+	"68": "Humectació sec 2",
+	"69": "Humectació res 2",
+	"70": "Precipitació acumulada",
+	"71": "Bateria",
+	"72": "Precipitació màxima en 1 minut",
+	"74": "Humitat del combustible forestal 1",
+	"75": "Temperatura del combustible forestal 1",
+	"76": "Humitat del combustible forestal 2",
+	"77": "Temperatura del combustible forestal 2",
+	"78": "Humitat del combustible forestal 3",
+	"79": "Temperatura del combustible forestal 3",
+	"80": "Temperatura de la neu 1",
+	"81": "Temperatura de la neu 2",
+	"82": "Temperatura de la neu 3",
+	"83": "Temperatura de la neu 4",
+	"84": "Temperatura de la neu 5",
+	"85": "Temperatura de la neu 6",
+	"86": "Temperatura de la neu 7",
+	"87": "Temperatura de la neu 8",
+	"88": "Quality number",
+	"89": "Temperatura del datalogger",
+	"90": "Altura màxima",
+	"91": "Període màxima",
+	"92": "Altura significant",
+	"93": "Període significant",
+	"94": "Altura mitjana",
+	"95": "Període mitjà",
+	"96": "Direcció del pic",
+	"97": "Temperatura superficial del mar",
 }
 
 // Config will hold default settings
 type Config struct {
-	APIKey         string // API Key for connecting to the OWM
+	APIKey string // API Key for connecting to the OWM
 }
 
 // Data struct holds the time settings in general the time format will be YYYY/MM/D or YYYY-MM-DZ but this is transparent
@@ -327,12 +328,12 @@ type Data struct {
 
 // Parameters holds all the options to be passed in to the methods
 type Parameters struct {
-	codiEstacio string // should reference a key in the CodisEstacions map
+	codiEstacio  string // should reference a key in the CodisEstacions map
 	codiVariable string // should reference a key in the CodisVariables map
-	codiEstat string // should reference a key in the CodisEstat map
+	codiEstat    string // should reference a key in the CodisEstat map
 	Data
-
 }
+
 // NewParameters generates a new Parameters config.
 func NewParameters(options ...func(*Parameters) error) (*Parameters, error) {
 	p := &Parameters{}
@@ -340,7 +341,7 @@ func NewParameters(options ...func(*Parameters) error) (*Parameters, error) {
 	// Default values...
 	p.codiEstacio = ""
 	p.codiVariable = ""
-	p.codiEstat =""
+	p.codiEstat = ""
 	p.Any = ""
 	p.Mes = ""
 	p.Dia = ""
@@ -381,12 +382,12 @@ func OptionCodiVariable(codiVariable string) func(p *Parameters) error {
 // OptionData is a helper function to set up the value of Data to be passed in Parameters struct
 func OptionData(d Data) func(p *Parameters) error {
 	return func(p *Parameters) error {
-			p.Any = d.Any
-			p.Mes = d.Mes
-			p.Dia = d.Dia
-			return nil
-		}
+		p.Any = d.Any
+		p.Mes = d.Mes
+		p.Dia = d.Dia
+		return nil
 	}
+}
 
 // APIError returned on failed API calls.
 type APIError struct {
@@ -407,7 +408,6 @@ func grayscale(code color.Attribute) func(string, ...interface{}) string {
 	return color.New(code + 232).SprintfFunc()
 }
 
-
 // ApiKey setter function to be passed in the Settings struct, necessary to perform the request
 func setKey(key string) (string, error) {
 	if err := ValidAPIKey(key); err != nil {
@@ -417,7 +417,7 @@ func setKey(key string) (string, error) {
 }
 
 // ValidData validates that we set a correct data
-func ValidData (d Data) bool {
+func ValidData(d Data) bool {
 	if d.Mes != "" && d.Any != "" && d.Dia != "" {
 		return true
 	} else if d.Mes == "" || d.Any == "" || d.Dia == "" {
@@ -456,7 +456,6 @@ func ValidCodiEstacio(c string) bool {
 	return false
 }
 
-
 // ValidCodiVariable makes sure the string passed in is an
 // acceptable variable code.
 func ValidCodiVariable(c string) bool {
@@ -474,8 +473,8 @@ func CheckAPIKeyExists(apiKey string) bool { return len(apiKey) > 1 }
 // Settings holds the client settings
 type Settings struct {
 	client *http.Client
-	req *http.Request
-	trace *httptrace.ClientTrace
+	req    *http.Request
+	trace  *httptrace.ClientTrace
 
 	//cr *resty.Client
 }
