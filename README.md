@@ -7,7 +7,7 @@
 ### Rest client implented in Go to send requests and inspect responses of the Meteocat API Rest
 
 This package allows you to use the API provided by Meteocat to retrieve weather data from its weather stations networks.
-The package is still in development and does include support of the all the API operations. See the TODO section for
+The package is still in development and does include support for all the API operations. See the TODO section for
 more information.
 
 ## What kind of data can I get with Meteocat Go Library ?
@@ -80,7 +80,7 @@ at [https://apidocs.meteocat.gencat.cat/documentacio/](https://apidocs.meteocat.
 - [ ] Add trace request latency (DNSLookup, TCP Connection and so on)
 - [ ] Add example to ingest data on Elasticsearch and visualize it on Kibana
 - [ ] Add example to insert data on Influxdb and visualize on Grafana Dashboard
-- [ ] Add CLI example
+- [ ] Add CLI features 
 - [ ] Add support for the following API operations:
     - [x] Mesurades
     - [ ] Predicció
