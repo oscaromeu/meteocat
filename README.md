@@ -19,8 +19,8 @@ Access to forecasts, real-time and historical data from the Meteorological Servi
 ### API key
 
 As Meteocat APIs need a valid API key to allow responses, this library won't work if you don't provide one. This stands
-for both free and paid (pro) subscription plans. You can signup for a free API key on the OWM website Please notice that
-the free API subscription plan is subject to requests throttling.
+for both free and paid (pro) subscription plans. You can signup for a free API key on the Meteocat website Please notice that
+both subscriptions plan are subject to requests throttling.
 
 ### Installation
 
