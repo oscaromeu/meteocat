@@ -7,7 +7,7 @@
 ### API Rest client implented in Go to send requests and inspect responses of the Meteocat Rest API
 
 This package allows you to use the API provided by Meteocat to retrieve weather data from its weather stations networks.
-The package is still in development and does include support for all the API operations. See the TODO section for
+The package is still in development and does not include support for all the API operations. See the TODO section for
 more information.
 
 ## What kind of data can I get with Meteocat Go Library ?
