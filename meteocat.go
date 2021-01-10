@@ -18,8 +18,10 @@ var errInvalidHttpClient = errors.New("invalid http client")
 // DataUnits represents the character chosen to represent the temperature notation
 // var DataUnits = map[string]string{"C": "metric"}
 var (
-	baseURL = "https://api.meteo.cat/xema/v1%s"
-	//baseURL="http://localhost:3000%s"
+	//baseURL = "https://api.meteo.cat/xema/v1%s"
+	baseURL="http://localhost:3000%s"
+	url string // helper variable to hold url values
+	sFlag bool // helper variable to check where to handle JSON that varies between an array or a single item
 
 )
 

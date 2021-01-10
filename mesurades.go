@@ -7,54 +7,6 @@ import (
 	"strings"
 )
 
-var url string // helper variable to hold url values
-var sFlag bool // helper variable to check where to handle JSON that varies between an array or a single item
-
-// Coordenades struct holds georeference information of the stations
-type Coordenades struct {
-	Latitud  float64 `json:"latitud"`  // Latitude expressed in decimal degrees. WSG84 reference system
-	Longitud float64 `json:"Longitud"` // Longitude expressed in decimal degrees. WSG84 reference system
-}
-
-// Municipi struct holds information on which municipi is located the station.
-type Municipi struct {
-	Codi string `json:"codi"` // INE code of the municipi
-	Nom  string `json:"nom"`  // Name of the municipi
-}
-
-// Comarca struct holds information on which Comarca is located the station.
-type Comarca struct {
-	Codi int    `json:"codi"` // Comarca identification code
-	Nom  string `json:"nom"`  // Name of the comarca
-}
-
-// Provincia struct holds information on which Provincia is located the station.
-type Provincia struct {
-	Codi int    `json:"codi"` // Provincia identification code
-	Nom  string `json:"nom"`  // Name of the provincia
-}
-
-// Xarxa struct holds information on which Xarxa is located the station. The xarxa field
-// refers to the stations of the Network of Automatic Meteorological Stations (XEMA) of Catalonia
-type Xarxa struct {
-	Codi int    `json:"codi"` // Xarxa identification code
-	Nom  string `json:"nom"`  // Name of the Network
-}
-
-// Aggregation of fields and structs to unmarshal the responses
-type MetadadesEstacions struct {
-	Codi        string      `json:"codi"`        // Identification code for each automatic weather station (EMA)
-	Nom         string      `json:"nom"`         // Name of the EMA
-	Tipus       string      `json:"tipus"`       // Type of station typically automatic
-	Coordenades Coordenades `json:"coordenades"` // Georeference data of the station
-	Emplacament string      `json:"emplacament"` // Descriptive name of where the station is located e.g Planters Gusi, ctra. antiga de València, km 14
-	Altitud     float64     `json:"altitud"`     // Altitude in meters of the station above the sea level.
-	Municipi    Municipi    `json:"municipi"`    // Municipi
-	Comarca     Comarca     `json:"comarca"`     // Comarca
-	Provincia   Provincia   `json:"provincia"`   // Provincia
-	Xarxa       Xarxa       `json:"xarxa"`       // Network tipically XEMA
-	Estats      Estats      `json:"estats"`
-}
 
 // MetadadesVariable is an aggregation of fields to hold the metadata asociated with
 // the variables of the Network of Automatic Meteorological Stations (XEMA), integrated into the Network of Meteorological

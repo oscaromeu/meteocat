@@ -1,0 +1,21 @@
+general:
+  # log directory set the Directory path for each device individual log
+  # could be set also with M_LOGDIR env var,default $CWD/log
+  log_dir: "./log"
+  # logLevel set de main process log level
+  # valid values: panic,fatal,error,warn,info,debug
+  # could also be set with M_LOGLEVEL env var, default info if not set
+  log_level: "info"
+  # Log mode  could be "file/console" default "console" ir not set
+  # could be set also with  M_LOGMODE env var
+  log_mode: "console"
+  #home_dir:
+  temporal_path: "/tmp"
+  # could also be set M_ES_USERNAME env var
+  es_user: "Admin"
+  # could also be set M_ES_PASSWORD env var
+  es_password: "Admin"
+  # could also be set M_ES_SERVER env var
+  es_server: "localhost"
+  # could also be set with M_API_KEY
+  api_key: "api_key"
