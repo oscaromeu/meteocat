@@ -7,7 +7,6 @@ import (
 	"strings"
 )
 
-
 // MetadadesVariable is an aggregation of fields to hold the metadata asociated with
 // the variables of the Network of Automatic Meteorological Stations (XEMA), integrated into the Network of Meteorological
 // Equipment of the Generalitat de Catalunya (Xemec), of the Meteorological Service of Catalonia. Each variable is identified by a code.
@@ -51,7 +50,7 @@ type MetadadesVariableEstacio struct {
 // Lectura is an aggregate type which represents the data registered in the station. This value with a code represents
 // a variable, e.g {"codi":5,"lectures":[{"data":"2021-01-06T10:00Z","dataExtrem":"2021-01-06T10:24Z","valor":8.7,"estat":" ","baseHoraria":"SH"}]}
 type Lectura struct {
-	Data        string  `json:"data"`
+	Data        string `json:"data"`
 	Valor       float64 `json:"valor"`
 	Estat       string  `json:"estat"`
 	BaseHoraria string  `json:"baseHoraria"`
@@ -150,8 +149,8 @@ func (m *Mesurades) MeasurementByDay(p *Parameters) error {
 // Returns information of all variables for a station for a given day.
 // The API resource is /estacions/mesurades/{codiEstacio}/{any}/{mes}/{dia} where the parameters `codiEstacio`  `any`
 // `mes` and `dia` are all mandatory. Request example: https://api.meteo.cat/xema/v1/estacions/mesurades/CC/2020/06/16
-func (m *Mesurades) MeasurementAllByStation(p *Parameters) error {
 
+func (m *Mesurades) MeasurementAllByStation(p *Parameters) error {
 	if ValidCodiEstacio(p.codiEstacio) {
 		m.CodiEstacio = strings.ToUpper(p.codiEstacio)
 	} else {
@@ -159,6 +158,7 @@ func (m *Mesurades) MeasurementAllByStation(p *Parameters) error {
 	}
 
 	req, err := http.NewRequest("GET", fmt.Sprintf(baseURL, fmt.Sprintf("/estacions/mesurades/%s/%s/%s/%s", strings.ToUpper(p.codiEstacio), p.Any, p.Mes, p.Dia)), nil)
+
 	if err != nil {
 		return err
 	}
@@ -193,7 +193,6 @@ func (m *Mesurades) MeasurementLast(p *Parameters) error {
 
 	if p.codiEstacio != "" {
 		p.codiEstacio = strings.ToUpper(p.codiEstacio)
-
 		if ValidCodiEstacio(p.codiEstacio) {
 			m.CodiEstacio = p.codiEstacio
 			url = fmt.Sprintf(baseURL, fmt.Sprintf("/variables/mesurades/%s/ultimes?codiEstacio=%s", p.codiVariable, p.codiEstacio))
@@ -248,7 +247,6 @@ func (m *Mesurades) MeasurementMetadataAllByStation(p *Parameters) error {
 	}
 
 	dataOk := ValidData(p.Data)
-
 	if p.codiEstat != "" && dataOk == true {
 		p.codiEstat = strings.ToLower(p.codiEstat)
 
