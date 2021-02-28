@@ -1,5 +1,5 @@
 general:
-  meteocat_api_key: "ksajclksajclaskjwo32cmsdsmadlqwlkewqñl"
+  meteocat_api_key: "my_apikey"
   meteocat_codi_estacio: ""
   meteocat_codi_variable: ""
 database:
@@ -8,6 +8,6 @@ database:
   influx_bucket: "meteocat-testing"
   influx_measurement: "meteocat_all_by_station"
   influx_org: "Testing"
-  influx_token: "5dYxum3y8db1ZZ4uCYkEjpt4C0AscasñlckasñlcaksñclsakMDv9GJewEHiLF6FjCQnqTDjrS-90ZLwFCLQBg=="
+  influx_token: "my_token"
 
 
