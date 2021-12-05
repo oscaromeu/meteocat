@@ -77,19 +77,10 @@ at [https://apidocs.meteocat.gencat.cat/documentacio/](https://apidocs.meteocat.
 
 ## TODO
 - [ ] Add trace request latency (DNSLookup, TCP Connection and so on)
-- [ ] Add example to ingest data on Elasticsearch and visualize it on Kibana
 - [ ] Add example to insert data on Influxdb and visualize on Grafana Dashboard
-- [ ] Add CLI features 
 - [ ] Add support for the following API operations:
     - [x] Mesurades
     - [ ] Predicció
-    - [ ] Representatives
-    - [ ] Estacions
-    - [ ] Estadistics
-    - [ ] Càlcul multivariable
-    - [ ] Xarxa de Detecció de Descàrregues Elèctriques
-    - [ ] Referència
-    - [ ] Quotes
 - [ ] Full code coverage
 
 ## Bug Tracker

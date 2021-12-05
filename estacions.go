@@ -98,7 +98,8 @@ func (e *Estacions) StationsAll(p *Parameters) error {
 		return err
 	}
 	defer resp.Body.Close()
-	if sFlag == true {
+	//if sFlag == true {
+	if sFlag {
 		if err = json.NewDecoder(resp.Body).Decode(&e.MetadadesEstacions); err != nil {
 			return err
 		}

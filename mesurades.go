@@ -210,6 +210,7 @@ func (m *Mesurades) MeasurementLast(p *Parameters) error {
 		return err
 	}
 
+
 	req.Header.Add("X-Api-Key", m.Key)
 
 	resp, err := m.client.Do(req)
@@ -370,7 +371,6 @@ func (m *Mesurades) MeasurementMetadataUnique(p *Parameters) error {
 	}
 
 	req.Header.Add("X-Api-Key", m.Key)
-
 	resp, err := m.client.Do(req)
 
 	if err != nil {

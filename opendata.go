@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-type OpenData[]struct {
+type OpenData []struct {
 	ID           string `json:"id"`
 	CodiEstacio  string `json:"codi_estacio"`
 	CodiVariable string `json:"codi_variable"`
@@ -21,21 +21,21 @@ type OpenDataMeasurements struct {
 	*Settings
 }
 
-
 // NewMesurades returns a new MesuradesData pointer with the supplied parameters
 func NewOpenDataMesurades() (*OpenDataMeasurements, error) {
 	c := &OpenDataMeasurements{
 		Settings: NewSettings(),
 	}
 
-
 	return c, nil
 }
 
 func (s *OpenDataMeasurements) OpenDataMeasurementAllByStation(p *Parameters) error {
 
-
-	req, err := http.NewRequest("GET", fmt.Sprintf(openDataURL, fmt.Sprintf("?data_lectura=%s-%s-%sT06:00:00", p.Any, p.Mes, p.Dia)), nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf(
+		openDataURL, fmt.Sprintf("?data_lectura=%s-%s-%sT%s:%s:%s",
+			p.Any, p.Mes, p.Dia, p.Hour, p.Minute, p.Seconds)), nil) // 2021-12-05T04:30:00.000
+	fmt.Println(req)
 	if err != nil {
 		return err
 	}
@@ -43,7 +43,6 @@ func (s *OpenDataMeasurements) OpenDataMeasurementAllByStation(p *Parameters) er
 	//req.Header.Add("X-Api-Key", m.Key)
 
 	resp, err := s.client.Do(req)
-
 
 	if err != nil {
 		fmt.Println(err)
@@ -57,5 +56,3 @@ func (s *OpenDataMeasurements) OpenDataMeasurementAllByStation(p *Parameters) er
 
 	return nil
 }
-
-

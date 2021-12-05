@@ -1,13 +1,18 @@
 general:
-  meteocat_api_key: "my_apikey"
-  meteocat_codi_estacio: ""
+  meteocat_api_key: "uVCjZoDF7P3i6pCfRh1aI9YoQxFX6eRr1cjHypzs"
+  meteocat_codi_estacio:
+    - D5
+    - X2
+    - X4
+    - X8
+    - Y7
   meteocat_codi_variable: ""
 database:
-  influx_server: "localhost"
+  influx_server: "192.168.1.69"
   influx_port: "8086"
   influx_bucket: "meteocat-testing"
   influx_measurement: "meteocat_all_by_station"
   influx_org: "Testing"
-  influx_token: "my_token"
+  influx_token: "5dYxum3y8db1ZZ4uCYkEjpt4C0AIqJ8oVwLW6IJcQ6O1h5olYMDv9GJewEHiLF6FjCQnqTDjrS-90ZLwFCLQBg=="
 
 
