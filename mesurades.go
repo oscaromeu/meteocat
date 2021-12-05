@@ -50,7 +50,7 @@ type MetadadesVariableEstacio struct {
 // Lectura is an aggregate type which represents the data registered in the station. This value with a code represents
 // a variable, e.g {"codi":5,"lectures":[{"data":"2021-01-06T10:00Z","dataExtrem":"2021-01-06T10:24Z","valor":8.7,"estat":" ","baseHoraria":"SH"}]}
 type Lectura struct {
-	Data        string `json:"data"`
+	Data        string  `json:"data"`
 	Valor       float64 `json:"valor"`
 	Estat       string  `json:"estat"`
 	BaseHoraria string  `json:"baseHoraria"`
@@ -209,7 +209,6 @@ func (m *Mesurades) MeasurementLast(p *Parameters) error {
 	if err != nil {
 		return err
 	}
-
 
 	req.Header.Add("X-Api-Key", m.Key)
 
