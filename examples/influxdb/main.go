@@ -1,17 +1,21 @@
 package main
 
 import (
+	"bytes"
+	"context"
 	"encoding/json"
 	"flag"
 	"fmt"
-	"github.com/ilyakaznacheev/cleanenv"
-	client "github.com/influxdata/influxdb-client-go/v2"
-	"github.com/oscaromeu/meteocat"
-	"github.com/sirupsen/logrus"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"strconv"
 	"time"
+
+	"github.com/ilyakaznacheev/cleanenv"
+	client "github.com/influxdata/influxdb-client-go/v2"
+	"github.com/oscaromeu/meteocat"
+	"github.com/sirupsen/logrus"
 )
 
 var (
@@ -24,10 +28,10 @@ var (
 )
 
 var (
-	timeApiBaseURL = "https://www.timeapi.io/api/Time/current/zone?timeZone=Europe/Madrid"
+	timeApiBaseURL = "https://www.timeapi.io/api/Time"
 )
 
-type Time struct {
+type CalculationResult struct {
 	Year         int    `json:"year"`
 	Month        int    `json:"month"`
 	Day          int    `json:"day"`
@@ -41,6 +45,13 @@ type Time struct {
 	TimeZone     string `json:"timeZone"`
 	DayOfWeek    string `json:"dayOfWeek"`
 	DstActive    bool   `json:"dstActive"`
+}
+
+type Calculation struct {
+	TimeZone          string `json:"timeZone"`
+	OriginalDateTime  string
+	UsedTimeSpan      string
+	CalculationResult CalculationResult
 }
 
 type General struct {
@@ -119,17 +130,15 @@ func ProcessArgs(cfg interface{}) Args {
 
 func InitDB(conf Config) (client.Client, error) {
 
-	fmt.Sprintf("http://%s:%s", conf.InfluxServer, conf.InfluxPort)
-
-	c := client.NewClient(fmt.Sprintf("http://%s:%s", conf.InfluxServer, conf.InfluxPort), conf.InfluxToken)
+	c := client.NewClient("http://localhost:8086", fmt.Sprintf("%s:%s", "admin", "admin"))
 
 	return c, nil
 
 }
 
-func (t *Time) getTime() {
+func (t *CalculationResult) currentByZone(tz string) {
 
-	url := timeApiBaseURL
+	url := timeApiBaseURL + fmt.Sprintf("/current/zone?timeZone=%s", tz)
 	method := "GET"
 
 	client := &http.Client{}
@@ -153,6 +162,54 @@ func (t *Time) getTime() {
 
 }
 
+func (c *Calculation) currentDecrecment(ts string, tz string) {
+
+	//url := timeApiBaseURL + "/Calculation/current/decrement"
+	url := "https://www.timeapi.io/api/Calculation/current/decrement"
+	method := "POST"
+
+	type Payload struct {
+		TimeZone string `json:"timeZone"`
+		TimeSpan string `json:"timeSpan"`
+	}
+
+	payload := Payload{
+		TimeZone: tz,
+		TimeSpan: ts,
+	}
+	p, err := json.Marshal(payload)
+	client := &http.Client{}
+	req, err := http.NewRequest(method, url, bytes.NewBuffer(p))
+
+	req.Header.Add("accept", "application/json")
+	req.Header.Add("Content-Type", "application/json")
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	res, err := client.Do(req)
+
+	fmt.Println(res)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer res.Body.Close()
+
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	if err := json.Unmarshal([]byte(body), &c); err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(c)
+}
+
 func main() {
 
 	c, err := InitDB(cfg)
@@ -161,28 +218,22 @@ func main() {
 		os.Exit(1)
 	}
 
-	var t Time
-	var Tags = make(map[string]string)
+	var cal Calculation
+	//var Tags = make(map[string]string)
 
-	t.getTime()
+	cal.currentDecrecment("00:02:30:00", "Europe/Madrid")
 
 	d, _ := meteocat.NewOpenDataMesurades()
 
 	data := meteocat.Data{
-		Any: strconv.Itoa(t.Year),
-		Mes: strconv.Itoa(t.Month),
-		Dia: strconv.Itoa(t.Day),
+		Any: strconv.Itoa(cal.CalculationResult.Year),
+		Mes: strconv.Itoa(cal.CalculationResult.Month),
+		Dia: strconv.Itoa(cal.CalculationResult.Day),
 	}
 
-	//	timeDate := meteocat.TimeDate{
-	//		Hour:    strconv.Itoa(t.Hour),
-	//		Minute:  strconv.Itoa(t.Minute),
-	//		Seconds: "00",
-	//	}
-
 	timeDate := meteocat.TimeDate{
-		Hour:    "05",
-		Minute:  "00",
+		Hour:    strconv.Itoa(cal.CalculationResult.Hour),
+		Minute:  strconv.Itoa(cal.CalculationResult.Minute),
 		Seconds: "00",
 	}
 	fmt.Println(data)
@@ -193,22 +244,23 @@ func main() {
 
 	d.OpenDataMeasurementAllByStation(p)
 
-	writeAPI := c.WriteAPI(cfg.InfluxOrg, cfg.InfluxBucket)
+	str := fmt.Sprintf("%s-%s-%sT%s:%s:%s", p.Any, p.Mes, p.Dia, p.Hour, p.Minute, p.Seconds)
+
+	tt, err := time.Parse(layout, str)
+	writeAPI := c.WriteAPIBlocking("", "test/autogen")
+
 	for _, v := range d.OpenData {
 		Tags["codi_estacio"] = v.CodiEstacio
 		Tags["nom_estacio"] = meteocat.CodisEstacions[v.CodiEstacio]
 		Tags["codi_variable"] = v.CodiVariable
 		Tags["nom_variable"] = meteocat.CodisVariables[v.CodiVariable]
-		t, _ = time.Parse(layout, data.Any, data.Mes, data.Dia)
-		Fields["valor"] = l.Valor
+		Fields["valor"] = v.ValorLectura
 		p := client.NewPoint(cfg.InfluxMeasurement,
 			Tags,
-			Fields, fmt.Sprintf("?data_lectura=%s-%s-%sT%s:%s:%s", p.Any, p.Mes, p.Dia, p.Hour, p.Minute, p.Seconds))
+			Fields, tt)
 		// write point asynchronously
-		writeAPI.WritePoint(p)
+		writeAPI.WritePoint(context.Background(), p)
 	}
-	// Flush writes
-	writeAPI.Flush()
 	// always close client at the end
 	defer c.Close()
 
