@@ -130,7 +130,7 @@ func ProcessArgs(cfg interface{}) Args {
 
 func InitDB(conf Config) (client.Client, error) {
 
-	c := client.NewClient("http://localhost:8086", fmt.Sprintf("%s:%s", "admin", "admin"))
+	c := client.NewClient("http://influxdb:8086", fmt.Sprintf("%s:%s", "admin", "admin"))
 
 	return c, nil
 
