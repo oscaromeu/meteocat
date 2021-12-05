@@ -1,42 +1,26 @@
-VERSION=`git rev-parse HEAD`
-BUILD=`date +%FT%T%z`
-LDFLAGS=-ldflags "-X main.Version=${VERSION} -X main.Build=${BUILD}"
-DOCKER_IMAGE=meteocat-testing
-DOCKER_IMAGE_TAG=meteocat-testing
-PLATFORM=local
+Version := $(shell git describe --tags)
+# Version := "dev"
+GitCommit := $(shell git rev-parse HEAD)
+LDFLAGS := "-s -w -X main.Version=$(Version) -X main.GitCommit=$(GitCommit)"
+.PHONY: all
+all: gofmt dist build
+.PHONY: gofmt
+gofmt:
+	@test -z $(shell gofmt -l ./ | tee /dev/stderr) || (echo "[WARN] Fix formatting issues with 'make fmt'" && exit 1)
+.PHONY: dist
+dist:
+	mkdir -p bin/
+	CGO_ENABLED=0 GOOS=linux go build -mod=vendor -a -ldflags $(LDFLAGS) -installsuffix cgo -o bin/release-it-amd64
+	CGO_ENABLED=0 GOOS=darwin go build -mod=vendor -a -ldflags $(LDFLAGS) -installsuffix cgo -o bin/release-it-darwin
+	GOARM=7 GOARCH=arm CGO_ENABLED=0 GOOS=linux go build -mod=vendor -a -ldflags $(LDFLAGS) -installsuffix cgo -o bin/release-it-arm
+	GOARCH=arm64 CGO_ENABLED=0 GOOS=linux go build -mod=vendor -a -ldflags $(LDFLAGS) -installsuffix cgo -o bin/release-it-arm64
+	GOOS=windows CGO_ENABLED=0 go build -mod=vendor -a -ldflags $(LDFLAGS) -installsuffix cgo -o bin/release-it.exe
 
-.PHONY: help
-help: ## - Show help message
-	@printf "\033[32m\xE2\x9c\x93 usage: make [target]\n\n\033[0m"
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
-
-.PHONY: docker-pull
-docker-pull:	## - docker pull latest images
-	@printf "\033[32m\xE2\x9c\x93 docker pull latest images\n\033[0m"
-	@docker pull golang:alpine
-
-.PHONY: docker-pull-distroless
-docker-pull-distroless:	## - docker pull latest images
-	@printf "\033[32m\xE2\x9c\x93 docker pull latest images\n\033[0m"
-	@docker pull golang:buster
-	@docker pull gcr.io/distroless/base
-	@docker pull gcr.io/distroless/static
-
-.PHONY: build-distroless
-build-distroless:docker-pull-distroless	## - Build the smallest and secured golang docker image based on distroless
-	@printf "\033[32m\xE2\x9c\x93 Build the smallest and secured golang docker image based on distroless\n\033[0m"
-	$(eval BUILDER_IMAGE=$(shell docker inspect --format='{{index .RepoDigests 0}}' golang:buster))
-	$(eval DISTROLESS_IMAGE=$(shell docker inspect --format='{{index .RepoDigests 0}}' gcr.io/distroless/base))
-	@export DOCKER_CONTENT_TRUST=1
-	@docker build -f Dockerfile --build-arg BUILDER_IMAGE=$(BUILDER_IMAGE) --build-arg DISTROLESS_IMAGE=$(DISTROLESS_IMAGE) -t $(DOCKER_IMAGE_TAG)-distroless .
-
-.PHONY: ls
-ls: ## - List '$(DOCKER_IMAGE_TAG)' docker images
-	@printf "\033[32m\xE2\x9c\x93 Look at the size dude !\n\033[0m"
-	@docker image ls $(DOCKER_IMAGE_TAG)
-
-.PHONY: run
-run:	## - Run the smallest and secured golang docker image based on scratch
-	@printf "\033[32m\xE2\x9c\x93 Run the smallest and secured golang docker image based on scratch\n\033[0m"
-	@docker run $(DOCKER_IMAGE_TAG):latest
-
+build:
+	docker buildx build \
+	--build-arg Version=0.1.0 \
+	--build-arg GitCommit=$(GitCommit) \
+	--platform linux/arm64 \
+	--platform linux/amd64 \
+	--push \
+	-t osokaru/meteocat:$(Version) .

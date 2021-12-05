@@ -1,42 +1,28 @@
-ARG  BUILDER_IMAGE=golang:buster
-ARG  DISTROLESS_IMAGE=gcr.io/distroless/base
-############################
-# STEP 1 build executable binary
-############################
-
-# syntax = docker/dockerfile:1-experimental
-
-FROM --platform=${BUILDPLATFORM} ${BUILDER_IMAGE} AS base
-WORKDIR /src
-ENV CGO_ENABLED=0
-COPY go.* .
-RUN --mount=type=cache,target=/go/pkg/mod \
-    go mod download 
-
-FROM base AS build
+FROM --platform=${BUILDPLATFORM:-linux/amd64} golang:1.15 as builder
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
 ARG TARGETOS
 ARG TARGETARCH
-# Ensure ca-certficates are up to date
-RUN update-ca-certificates
-WORKDIR /src
-COPY . . 
-RUN --mount=target=. \
-    --mount=type=cache,target=/go/pkg/mod \
-    --mount=type=cache,target=/root/.cache/go-build \
-    GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -ldflags="-w -s" -a -installsuffix cgo -o /go/bin/meteocat/example/influxdb .
 
+ARG Version
+ARG GitCommit
 
-############################
-# STEP 2 build a small image
-############################
-# using base nonroot image
-# user:group is nobody:nobody, uid:gid = 65534:65534
-FROM ${DISTROLESS_IMAGE}
+ENV CGO_ENABLED=0
+ENV GO111MODULE=on
 
+WORKDIR /go/src/github.com/oscaromeu/meteocat/examples/influx
+COPY .  .
+
+RUN CGO_ENABLED=${CGO_ENABLED} GOOS=${TARGETOS} GOARCH=${TARGETARCH} \
+  go build -ldflags \
+  "-s -w -X 'main.Version=${Version}' -X 'main.GitCommit=${GitCommit}'" \
+  -a -installsuffix cgo -o /usr/bin/meteocat .
+
+FROM --platform=${BUILDPLATFORM:-linux/amd64} gcr.io/distroless/static:nonroot
 # Copy our config file and static executable
-COPY config.yml $GOPATH/src/meteocat/example/influxdb/
-COPY --from=build /go/bin/meteocat/example/influxdb /go/bin/meteocat/example/influxdb
-WORKDIR $GOPATH/src/meteocat/example/influxdb/
-ENV LOG_DEBUG=true
 # Run main
-ENTRYPOINT ["/go/bin/meteocat/example/influxdb"]
+WORKDIR /
+COPY config.yml .
+COPY --from=builder /usr/bin/meteocat /
+USER nonroot:nonroot
+CMD ["/meteocat"," -c config.yml"]

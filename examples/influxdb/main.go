@@ -207,7 +207,6 @@ func (c *Calculation) currentDecrecment(ts string, tz string) {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println(c)
 }
 
 func main() {
@@ -221,7 +220,7 @@ func main() {
 	var cal Calculation
 	//var Tags = make(map[string]string)
 
-	cal.currentDecrecment("00:02:30:00", "Europe/Madrid")
+	cal.currentDecrecment("00:02:00:00", "Europe/Madrid")
 
 	d, _ := meteocat.NewOpenDataMesurades()
 
@@ -233,17 +232,16 @@ func main() {
 
 	timeDate := meteocat.TimeDate{
 		Hour:    strconv.Itoa(cal.CalculationResult.Hour),
-		Minute:  strconv.Itoa(cal.CalculationResult.Minute),
+		Minute:  "00",
 		Seconds: "00",
 	}
-	fmt.Println(data)
 	p, _ := meteocat.NewParameters(
 		meteocat.OptionData(data),
 		meteocat.OptionTimeDate(timeDate),
 	)
 
 	d.OpenDataMeasurementAllByStation(p)
-
+	fmt.Println(d.OpenData)
 	str := fmt.Sprintf("%s-%s-%sT%s:%s:%s", p.Any, p.Mes, p.Dia, p.Hour, p.Minute, p.Seconds)
 
 	tt, err := time.Parse(layout, str)
