@@ -245,7 +245,7 @@ func main() {
 	str := fmt.Sprintf("%s-%s-%sT%s:%s:%s", p.Any, p.Mes, p.Dia, p.Hour, p.Minute, p.Seconds)
 
 	tt, err := time.Parse(layout, str)
-	writeAPI := c.WriteAPIBlocking("", "test/autogen")
+	writeAPI := c.WriteAPIBlocking("", "meteocat/autogen")
 
 	for _, v := range d.OpenData {
 		Tags["codi_estacio"] = v.CodiEstacio
