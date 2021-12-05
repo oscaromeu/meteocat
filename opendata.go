@@ -35,7 +35,7 @@ func (s *OpenDataMeasurements) OpenDataMeasurementAllByStation(p *Parameters) er
 	req, err := http.NewRequest("GET", fmt.Sprintf(
 		openDataURL, fmt.Sprintf("?data_lectura=%s-%s-%sT%s:%s:%s",
 			p.Any, p.Mes, p.Dia, p.Hour, p.Minute, p.Seconds)), nil) // 2021-12-05T04:30:00.000
-	fmt.Println(req)
+
 	if err != nil {
 		return err
 	}

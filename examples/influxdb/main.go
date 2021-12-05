@@ -190,7 +190,6 @@ func (c *Calculation) currentDecrecment(ts string, tz string) {
 	}
 	res, err := client.Do(req)
 
-	fmt.Println(res)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -241,7 +240,8 @@ func main() {
 	)
 
 	d.OpenDataMeasurementAllByStation(p)
-	fmt.Println(d.OpenData)
+	log.Info("Gathered data")
+	log.Info(d.OpenData)
 	str := fmt.Sprintf("%s-%s-%sT%s:%s:%s", p.Any, p.Mes, p.Dia, p.Hour, p.Minute, p.Seconds)
 
 	tt, err := time.Parse(layout, str)
@@ -258,6 +258,7 @@ func main() {
 			Fields, tt)
 		// write point asynchronously
 		writeAPI.WritePoint(context.Background(), p)
+
 	}
 	// always close client at the end
 	defer c.Close()
