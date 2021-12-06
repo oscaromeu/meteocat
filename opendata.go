@@ -6,14 +6,15 @@ import (
 	"net/http"
 )
 
+// Caution Opendata returns strings in some numeric fields like ValorLectura
 type OpenData []struct {
-	ID           string  `json:"id"`
-	CodiEstacio  string  `json:"codi_estacio"`
-	CodiVariable string  `json:"codi_variable"`
-	DataLectura  string  `json:"data_lectura"`
-	DataExtrem   string  `json:"data_extrem,omitempty"`
-	ValorLectura float64 `json:"valor_lectura"`
-	CodiBase     string  `json:"codi_base"`
+	ID           string `json:"id"`
+	CodiEstacio  string `json:"codi_estacio"`
+	CodiVariable string `json:"codi_variable"`
+	DataLectura  string `json:"data_lectura"`
+	DataExtrem   string `json:"data_extrem,omitempty"`
+	ValorLectura string `json:"valor_lectura"`
+	CodiBase     string `json:"codi_base"`
 }
 
 type OpenDataMeasurements struct {

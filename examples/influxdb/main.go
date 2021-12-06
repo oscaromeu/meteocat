@@ -129,7 +129,7 @@ func ProcessArgs(cfg interface{}) Args {
 
 func InitDB(conf Config) (client.Client, error) {
 
-	c := client.NewClient("http://influxdb:8086", fmt.Sprintf("%s:%s", "admin", "admin"))
+	c := client.NewClient("http://influxdb:8086", fmt.Sprintf("%s:%s", "", ""))
 
 	return c, nil
 
@@ -247,13 +247,17 @@ func main() {
 	writeAPI := c.WriteAPI("", "meteocat/autogen")
 
 	for _, v := range d.OpenData {
+		meas, err := strconv.ParseFloat(v.ValorLectura, 64)
+		if err != nil {
+			log.Infof("ERROR: %s", err)
+		}
 		// create point using fluent style
 		p := client.NewPointWithMeasurement(cfg.InfluxMeasurement).
 			AddTag("codi_estacio", v.CodiEstacio).
 			AddTag("nom_estacio", meteocat.CodisEstacions[v.CodiEstacio]).
 			AddTag("codi_variable", v.CodiVariable).
 			AddTag("nom_variable", meteocat.CodisVariables[v.CodiVariable]).
-			AddField("max", v.ValorLectura).
+			AddField("measurement", meas).
 			SetTime(tt)
 		writeAPI.WritePoint(p)
 		// Flush writes
