@@ -142,20 +142,29 @@ func main() {
 		Dia: strconv.Itoa(tt.Day()),
 	}
 
+	// Get the current minute and round to 30 or 00
+	// Opendata precision is rouglhy 30min
+	var minute string
+	if (tt.Minute() >= 30) && (tt.Minute() < 45) {
+		minute = "30"
+	} else {
+		minute = "00"
+	}
+
 	timeDate := meteocat.TimeDate{
 		Hour:    strconv.Itoa(tt.Hour()),
-		Minute:  "00",
+		Minute:  minute,
 		Seconds: "00",
 	}
+
+	fmt.Println(timeDate)
 	p, _ := meteocat.NewParameters(
 		meteocat.OptionData(data),
 		meteocat.OptionTimeDate(timeDate),
 	)
 
 	d.OpenDataMeasurementAllByStation(p)
-	log.Info("Gathered data")
 	log.Info(d.OpenData)
-	log.Info(tt)
 
 	writeAPI := c.WriteAPI("", "meteocat/autogen")
 
