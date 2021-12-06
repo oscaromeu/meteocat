@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"context"
 	"encoding/json"
 	"flag"
 	"fmt"
@@ -245,19 +244,20 @@ func main() {
 	str := fmt.Sprintf("%s-%s-%sT%s:%s:%s", p.Any, p.Mes, p.Dia, p.Hour, p.Minute, p.Seconds)
 
 	tt, err := time.Parse(layout, str)
-	writeAPI := c.WriteAPIBlocking("", "meteocat/autogen")
+	writeAPI := c.WriteAPI("", "meteocat/autogen")
 
 	for _, v := range d.OpenData {
-		Tags["codi_estacio"] = v.CodiEstacio
-		Tags["nom_estacio"] = meteocat.CodisEstacions[v.CodiEstacio]
-		Tags["codi_variable"] = v.CodiVariable
-		Tags["nom_variable"] = meteocat.CodisVariables[v.CodiVariable]
-		Fields["valor"] = v.ValorLectura
-		p := client.NewPoint(cfg.InfluxMeasurement,
-			Tags,
-			Fields, tt)
-		// write point asynchronously
-		writeAPI.WritePoint(context.Background(), p)
+		// create point using fluent style
+		p := client.NewPointWithMeasurement(cfg.InfluxMeasurement).
+			AddTag("codi_estacio", v.CodiEstacio).
+			AddTag("nom_estacio", meteocat.CodisEstacions[v.CodiEstacio]).
+			AddTag("codi_variable", v.CodiVariable).
+			AddTag("nom_variable", meteocat.CodisVariables[v.CodiVariable]).
+			AddField("max", v.ValorLectura).
+			SetTime(tt)
+		writeAPI.WritePoint(p)
+		// Flush writes
+		writeAPI.Flush()
 
 	}
 	// always close client at the end
