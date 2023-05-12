@@ -1,0 +1,34 @@
+{
+  "codi": "D5",
+  "nom": "Barcelona - Observatori Fabra",
+  "tipus": "A",
+  "coordenades": {
+    "latitud": 41.41864,
+    "longitud": 2.12379
+  },
+  "emplacament": "Observatori Fabra",
+  "altitud": 411,
+  "municipi": {
+    "codi": "080193",
+    "nom": "Barcelona"
+  },
+  "comarca": {
+    "codi": 13,
+    "nom": "Barcelonès"
+  },
+  "provincia": {
+    "codi": 8,
+    "nom": "Barcelona"
+  },
+  "xarxa": {
+    "codi": 1,
+    "nom": "XEMA"
+  },
+  "estats": [
+    {
+      "codi": 2,
+      "dataInici": "1995-11-03T18:00Z",
+      "dataFi": null
+    }
+  ]
+}

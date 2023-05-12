@@ -124,6 +124,7 @@ func (m *Mesurades) MeasurementByDay(p *Parameters) error {
 		return err
 	}
 
+	//req.Header.Set("Content-Type", "application/json")
 	req.Header.Add("X-Api-Key", m.Key)
 
 	resp, err := m.client.Do(req)
