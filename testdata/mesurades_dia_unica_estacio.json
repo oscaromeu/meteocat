@@ -1,0 +1,17 @@
+{
+  "codi": 32,
+  "lectures": [
+    {
+      "data": "2023-03-12T00:00Z",
+      "valor": 15.2,
+      "estat": "V",
+      "baseHoraria": "SH"
+    },
+    {
+      "data": "2023-03-12T00:30Z",
+      "valor": 15.7,
+      "estat": "V",
+      "baseHoraria": "SH"
+    }
+  ]
+}

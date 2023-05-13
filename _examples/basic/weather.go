@@ -26,12 +26,17 @@ func main() {
 		Dia: "06",
 	}
 	params, _ := meteocat.NewParameters(
-		meteocat.OptionCodiEstacio("D5"),
+		//meteocat.OptionCodiEstacio("D5"),
 		meteocat.OptionCodiVariable("32"),
 		meteocat.OptionData(data),
 	)
 
 	// Call MeasurementByDay Method
-	d.MeasurementByDay(params)
+	err = d.MeasurementByDay(params)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	fmt.Println(d.Measurements)
 }

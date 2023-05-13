@@ -62,6 +62,17 @@ type Estacions struct {
 	*Settings
 }
 
+// NewMesurades returns a new MesuradesData pointer with the supplied parameters
+func NewEstacions(key string) (*Estacions, error) {
+	e := &Estacions{
+		Settings: NewSettings(),
+	}
+
+	e.Key, _ = setKey(key)
+
+	return e, nil
+}
+
 // Returns a list of metadata from all stations. If settings are specified, filters by specified status and date
 // The API resource is /estacions/metadades?estat={estat}&data={data} where the
 // parameters `estat` and data optional.

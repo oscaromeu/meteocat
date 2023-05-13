@@ -17,3 +17,5 @@ curl -H "Content-Type: application/json" -H "X-Api-Key: $METEOCAT_API_KEY" https
 ```
 curl -H "Content-Type: application/json" -H "X-Api-Key: $METEOCAT_API_KEY" https://api.meteo.cat/xema/v1/variables/mesurades/32/2023/03/12?codiEstacio=D5
 ```
+
+https://api.meteo.cat/xema/v1/variables/mesurades/32/2017/03/27?codiEstacio=UG

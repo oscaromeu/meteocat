@@ -76,12 +76,11 @@ Documentation of the API can be found
 at [https://apidocs.meteocat.gencat.cat/documentacio/](https://apidocs.meteocat.gencat.cat/documentacio/).
 
 ## TODO
-- [ ] Add trace request latency (DNSLookup, TCP Connection and so on)
-- [ ] Add example to insert data on Influxdb and visualize on Grafana Dashboard
+
 - [ ] Add support for the following API operations:
     - [x] Mesurades
     - [ ] Predicció
-- [ ] Full code coverage
+- [ ] Add more tests
 
 ## Bug Tracker
 

@@ -92,10 +92,16 @@ func NewMesurades(key string) (*Mesurades, error) {
 	return c, nil
 }
 
-// Returns information of a variable for all stations for a given day, if the station code is reported,
-// returns the data of the variable for the requested station.
-// The API resource is /variables/mesurades/{codi_variable}/{any}/{mes}/{dia}?codiEstacio={codi_estacio} where the
-// parameters `codi_variable`, `any`, `mes`, `dia` are mandatory and `codi_estacio` is optional.
+// This function returns information about a weather variable for all stations on a specific day.
+// If a station code is provided, it returns the data for that variable and station.
+// The API endpoint for this function is /variables/mesurades/{codi_variable}/{any}/{mes}/{dia}?codiEstacio={codi_estacio}.
+//
+// The following parameters are mandatory:
+// - `codi_variable`: The code of the variable to retrieve data for.
+// - `any`: The year of the date to retrieve data for.
+// - `mes`: The month of the date to retrieve data for.
+// - `dia`: The day of the date to retrieve data for.
+// The `codi_estacio` parameter is optional, and can be used to filter the data by a specific station code.
 // Request example: https://api.meteo.cat/xema/v1/variables/mesurades/32/2017/03/27?codiEstacio=UG
 func (m *Mesurades) MeasurementByDay(p *Parameters) error {
 
@@ -134,11 +140,13 @@ func (m *Mesurades) MeasurementByDay(p *Parameters) error {
 		return err
 	}
 	defer resp.Body.Close()
+
 	if sFlag == true {
 		if err = json.NewDecoder(resp.Body).Decode(&m.Variable); err != nil {
 			return err
 		}
 	} else {
+
 		if err = json.NewDecoder(resp.Body).Decode(&m.Measurements); err != nil {
 			return err
 		}
@@ -225,6 +233,7 @@ func (m *Mesurades) MeasurementLast(p *Parameters) error {
 			return err
 		}
 	} else {
+
 		if err = json.NewDecoder(resp.Body).Decode(&m.Measurements); err != nil {
 			return err
 		}

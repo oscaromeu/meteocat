@@ -3,10 +3,7 @@ package meteocat
 import (
 	"errors"
 	"fmt"
-	"github.com/fatih/color"
 	"net/http"
-	"net/http/httptrace"
-	"time"
 )
 
 var errEstacioUnavailable = errors.New("station code unavailable")
@@ -19,10 +16,10 @@ var errInvalidHttpClient = errors.New("invalid http client")
 // var DataUnits = map[string]string{"C": "metric"}
 var (
 	baseURL = "https://api.meteo.cat/xema/v1%s"
-	//baseURL="http://localhost:3000%s"
-	openDataURL = "https://analisi.transparenciacatalunya.cat/resource/nzvn-apee.json%s"
-	url         string // helper variable to hold url values
-	sFlag       bool   // helper variable to check where to handle JSON that varies between an array or a single item
+	url     string // helper variable to hold url values
+	sFlag   bool   // helper variable to check where to handle JSON that varies between an array or a single item
+	// Its worth to note that the single item corresponds to a lecture of a single station whereas an array is a lecture
+	// containing data of all stations. See the endpoint of MeasurementByDay function.
 
 )
 
@@ -127,19 +124,6 @@ type APIError struct {
 	COD     string `json:"cod"`
 }
 
-// Variables to calculate time values in the trace request executions
-var t0, t1, t2, t3, t4, t5, t6 time.Time
-
-// Wraper of Fprintf to colorize the output
-func printf(format string, a ...interface{}) (n int, err error) {
-	return fmt.Fprintf(color.Output, format, a...)
-}
-
-// Color settings
-func grayscale(code color.Attribute) func(string, ...interface{}) string {
-	return color.New(code + 232).SprintfFunc()
-}
-
 // ApiKey setter function to be passed in the Settings struct, necessary to perform the request
 func setKey(key string) (string, error) {
 	if err := ValidAPIKey(key); err != nil {
@@ -206,7 +190,6 @@ func CheckAPIKeyExists(apiKey string) bool { return len(apiKey) > 1 }
 type Settings struct {
 	client *http.Client
 	req    *http.Request
-	trace  *httptrace.ClientTrace
 
 	//cr *resty.Client
 }
@@ -218,10 +201,17 @@ func NewSettings() *Settings {
 	}
 }
 
+//func OptionURL(url string) Option {
+//	return func(s *Settings) error {
+//		s.url = url
+//		return nil
+//	}
+//}
+
 // Optional client settings
 type Option func(s *Settings) error
 
-//// WithHttpClient sets custom http client when creating a new Client.
+// // WithHttpClient sets custom http client when creating a new Client.
 func WithHttpClient(c *http.Client) Option {
 	return func(s *Settings) error {
 		if c == nil {
